@@ -19,15 +19,24 @@ DATABASES = {
 }
 """
 
-TIME_ZONE = 'Europe/Helsinki'
+TIME_ZONE = 'UTC'
 LANGUAGE_CODE = 'en-us'
 SITE_ID = 1
 USE_I18N = True
 USE_L10N = True
 MEDIA_ROOT = ''
-MEDIA_URL = ''
-ADMIN_MEDIA_PREFIX = '/media/'
-SECRET_KEY = 'miub1a8uke6&@_4@+e0x+dqy+160s0v1+(_7x^z_om7q^w43fo'
+MEDIA_URL = '/media/'
+# apps/static -folders bundled here:https://docs.djangoproject.com/en/dev/howto/static-files/ 
+STATIC_ROOT = ''
+STATIC_URL = '/static/'
+ADMIN_MEDIA_PREFIX = '/static/admin/'
+STATICFILES_DIRS = ()
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+#    'django.contrib.staticfiles.finders.DefaultStorageFinder',
+)
+SECRET_KEY = '**REGENERATE**'
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
@@ -51,8 +60,31 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.admin',
-    #
+    'django.contrib.staticfiles',
     'django_extensions',
-    #
-    'heed',
+    'djcelery',
+    'gunicorn',
 )
+
+# http://docs.djangoproject.com/en/dev/topics/logging
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'mail_admins': {
+            'level': 'ERROR',
+            'class': 'django.utils.log.AdminEmailHandler'
+        }
+    },
+    'loggers': {
+        'django.request': {
+            'handlers': ['mail_admins'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
+    }
+}
+
+from celeryconfig import *
+import djcelery
+djcelery.setup_loader()

@@ -1,0 +1,6 @@
+Django Bootstrap
+================
+export PYTHONPATH=:project/:project/../:ext/
+workon project
+pip install -r requirements.txt
+python manage.py runserver

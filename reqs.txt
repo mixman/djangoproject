@@ -1,4 +1,0 @@
-Django==1.3
-MySQL-python
-python-memcached
-django-extensions
