@@ -5,19 +5,32 @@ DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 ADMINS = ()
 MANAGERS = ADMINS
+
 """
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': '',
+        'NAME': ':memory:',
+        'ENGINE': 'django.db.backends.sqlite3',
         'USER': '',
         'PASSWORD': '',
         'HOST': '',
         'PORT': '',
-        'OPTIONS': { 'unix_socket' : '/tmp/mysql.sock', },
-    }
+    },
 }
 """
+DATABASES = {
+    'default': {
+        'NAME': 'playground',
+        'ENGINE': 'django.db.backends.mysql',
+        'USER': 'root',
+        'PASSWORD': 't44t',
+        'HOST': '',
+        'PORT': '',
+        'OPTIONS': { 'unix_socket' : '/tmp/mysql.sock', },
+        'migrate': True,
+    },
+}
+
 
 TIME_ZONE = 'UTC'
 LANGUAGE_CODE = 'en-us'
@@ -61,9 +74,6 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.admin',
     'django.contrib.staticfiles',
-    'django_extensions',
-    'djcelery',
-    'gunicorn',
 )
 
 # http://docs.djangoproject.com/en/dev/topics/logging
@@ -85,6 +95,3 @@ LOGGING = {
     }
 }
 
-from celeryconfig import *
-import djcelery
-djcelery.setup_loader()
